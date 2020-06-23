@@ -14,8 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from .swagger_doc import doc_schema
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("user/", include("user_profiles.urls")),
+    path(
+        "swagger/",
+        doc_schema.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("redoc/", doc_schema.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
